@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <tokenizer.hh>
 
 using namespace std;
 // Variables
@@ -16,9 +15,8 @@ int main() {
     cout << "Digite una expresión: " << endl;
     getline(cin, userExpression);
     if (!hasLetters(userExpression)) {
-      tokenizer tokenizer;
-      // PlaceHolder cambiar a tipo correcto una vez esté implementado
-      int placeholder = tokenizer.tokenize(userExpression);
+      // PlaceHolder para probar funcionalidad.
+      cout << "soy una expresión valida" << endl;
     } else {
       userExpression = toLowerCase(userExpression);
       if (userExpression != "salida") {
