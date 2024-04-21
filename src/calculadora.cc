@@ -18,7 +18,17 @@ int main() {
     if (!hasLetters(userExpression)) {
       tokenizer tokenizer;
       // PlaceHolder cambiar a tipo correcto una vez esté implementado
-      int placeholder = tokenizer.tokenize(userExpression);
+      // Recieves a stack of tokens.
+      int tokenizedExpression = tokenizer.tokenize(userExpression);
+
+      // Condition to end the calculation process if the stack of tokens was
+      // invalid.
+      if (tokenizedExpression == 0) {
+        // PlaceHolder para probar funcionalidad, cambiar una vez se implementen
+        // las clases restantes
+        cout << "Tokenize termino exitosamente" << endl;
+      }
+
     } else {
       userExpression = toLowerCase(userExpression);
       if (userExpression != "salida") {
