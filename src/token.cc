@@ -1,12 +1,12 @@
 #include <token.hh>
 using namespace std;
 
-Token::Token(TokenType type, string value):
+Token::Token(TokenType type, char value):
 tokenType(type),
 value(value)
 {
     if (type == TokenType::TOKEN_TYPE_NUMBER) {
-    numberValue = stod(value);
+    numberValue = value;
     }
 }
 
@@ -14,7 +14,7 @@ TokenType Token::type(){
     return tokenType;
 }
 
-string Token::getValue(){
+char Token::getValue(){
     return value;
 }
 
@@ -23,19 +23,15 @@ double Token::getNumber(){
 }
 
 bool Token::isNumber(){
-    for(int i=0; i<=value.length(); i++){
-        if(isdigit(value[i])){
-            return true;
-        }
+    if(isdigit(value)){
+        return true;
     }
     return false;
 }
 
 bool Token::isOperator(){
-    for(int i=0; i<=value.length(); i++){
-        if(!isdigit(value[i])){
-            return true;
-        }
+    if(!isdigit(value)){
+        return true;
     }
     return false;
 }
