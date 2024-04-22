@@ -1,41 +1,28 @@
 #include <token.hh>
 using namespace std;
 
-Token::Token(TokenType type, string value):
-tokenType(type),
-value(value)
-{
-    if (type == TokenType::TOKEN_TYPE_NUMBER) {
-    numberValue = stod(value);
-    }
+Token::Token(TokenType type, char value) : tokenType(type), value(value) {
+  if (type == TokenType::TOKEN_TYPE_NUMBER) {
+    numberValue = (double)value;
+  }
 }
 
-TokenType Token::type(){
-    return tokenType;
+TokenType Token::type() { return tokenType; }
+
+char Token::getValue() { return value; }
+
+double Token::getNumber() { return numberValue; }
+
+bool Token::isNumber() {
+  if (isdigit(value)) {
+    return true;
+  }
+  return false;
 }
 
-string Token::getValue(){
-    return value;
-}
-
-double Token::getNumber(){
-    return numberValue;
-}
-
-bool Token::isNumber(){
-    for(int i=0; i<=value.length(); i++){
-        if(isdigit(value[i])){
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Token::isOperator(){
-    for(int i=0; i<=value.length(); i++){
-        if(!isdigit(value[i])){
-            return true;
-        }
-    }
-    return false;
+bool Token::isOperator() {
+  if (!isdigit(value)) {
+    return true;
+  }
+  return false;
 }
