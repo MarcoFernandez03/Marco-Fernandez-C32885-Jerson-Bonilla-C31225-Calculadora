@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <token.hh>
 #include <tokenizer.hh>
 
 using namespace std;
