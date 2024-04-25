@@ -28,6 +28,9 @@ int main() {
         // PlaceHolder para probar funcionalidad, cambiar una vez se implementen
         // las clases restantes
         cout << "Tokenize termino exitosamente" << endl;
+        // TODO: Implementar clase ShuntingYard e implementar condición para
+        // continuar con el calculo solo si el stack recibido de esta clase
+        // tiene elementos.
       }
 
     } else {

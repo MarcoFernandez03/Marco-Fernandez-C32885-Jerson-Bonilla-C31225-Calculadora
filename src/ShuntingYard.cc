@@ -51,12 +51,21 @@ stack<Token> ShuntingYard::parse(stack<Token> tokenizedExpression) {
         tokenizedExpression.pop();
         // If the token is a right parenthesis move all the operators in
         // operator stack to the postfix notation stack until the top of the
-        // operatorStack is a leftParenthesis, after that delete the left
-        // parenthesis.
+        // operatorStack is a left parenthesis, after that delete the left
+        // parenthesis, if a left parenthesis is not found return a empty stack.
       } else if (tokenizedExpression.top().type() ==
                  TokenType::TOKEN_TYPE_RIGHT_PARENTHESIS) {
         while (operatorStack.top().type() !=
                TokenType::TOKEN_TYPE_LEFT_PARENTHESIS) {
+          if (operatorStack.size() == 0) {
+            cout << "ERROR: Parentesis en posición " << i + 1
+                 << ". No se ha encontrado su pareja." << endl;
+            // calculadora class checks if the stack returned is not empty to
+            // continue with the calculation, if a right parenthesis is not
+            // found that means that the operator stack is empty therefore it
+            // sends an empty stack to stop calculation.
+            return operatorStack;
+          }
           tokenStack.push(operatorStack.top());
           operatorStack.pop();
         }
@@ -81,13 +90,19 @@ stack<Token> ShuntingYard::parse(stack<Token> tokenizedExpression) {
 // otherwise returns false
 // TODO: Añadir mensajes de error.
 bool ShuntingYard::isValid(stack<Token> expressionToCheck) {
-  for (int i = 0; i < expressionToCheck.size(); i++) {
+  // Token to be used as the previous token when reading other than the first
+  // one, used for error messages.
+  Token previousToken = expressionToCheck.top();
+  for (int i = 0; i < expressionToCheck.size() - 1; i++) {
     // If the token is the first token on the list it must be a number or a left
     // parenthesis
     if (i == 0) {
       if ((!expressionToCheck.top().isNumber()) ||
           !(expressionToCheck.top().type() ==
             TokenType::TOKEN_TYPE_LEFT_PARENTHESIS)) {
+        cout << "ERROR: Símbolo <" << expressionToCheck.top().getValue()
+             << ">. La expresión debe iniciar con un numero o un parentesis."
+             << endl;
         return false;
       }
       expressionToCheck.pop();
@@ -101,6 +116,10 @@ bool ShuntingYard::isValid(stack<Token> expressionToCheck) {
              TokenType::TOKEN_TYPE_RIGHT_PARENTHESIS) ||
            !(expressionToCheck.top().type() ==
              TokenType::TOKEN_TYPE_OPERATOR))) {
+        cout << "ERROR: Símbolo <" << expressionToCheck.top().getValue()
+             << ">. En posición " << i + 1 << ". Expresión"
+             << currentToken.getValue() << expressionToCheck.top().getValue()
+             << " Se esperaba operador o parentesis." << endl;
         return false;
       }
       // If the token is an operator the next one must be a number or a left
@@ -109,18 +128,32 @@ bool ShuntingYard::isValid(stack<Token> expressionToCheck) {
           (!(expressionToCheck.top().type() == TokenType::TOKEN_TYPE_NUMBER) ||
            !(expressionToCheck.top().type() ==
              TokenType::TOKEN_TYPE_LEFT_PARENTHESIS))) {
+        cout << "ERROR: Operador <" << expressionToCheck.top().getValue()
+             << ">. En posición " << i + 1 << ". Expressión"
+             << previousToken.getValue() << currentToken.getValue()
+             << expressionToCheck.top().getValue()
+             << " Se esperaba un número o parentesis." << endl;
         return false;
       }
       // If the token is a left parethesis the next one must be a number
       if (currentToken.type() == TokenType::TOKEN_TYPE_LEFT_PARENTHESIS &&
           !(expressionToCheck.top().type() == TokenType::TOKEN_TYPE_NUMBER)) {
+        cout << "ERROR: Símbolo <" << expressionToCheck.top().getValue()
+             << ">. En posición " << i + 1 << ". Expressión"
+             << currentToken.getValue() << expressionToCheck.top().getValue()
+             << " Se esperaba un número." << endl;
         return false;
       }
       // If the token is a right parethesis the next one must be an operator
       if (currentToken.type() == TokenType::TOKEN_TYPE_RIGHT_PARENTHESIS &&
           !(expressionToCheck.top().type() == TokenType::TOKEN_TYPE_OPERATOR)) {
+        cout << "ERROR: Símbolo <" << expressionToCheck.top().getValue()
+             << ">. En posición " << i + 1 << ". Expressión"
+             << currentToken.getValue() << expressionToCheck.top().getValue()
+             << " Se esperaba un operador." << endl;
         return false;
       }
+      previousToken = currentToken;
     }
   }
   return true;
