@@ -18,21 +18,23 @@ int main() {
     getline(cin, userExpression);
     if (!hasLetters(userExpression)) {
       tokenizer tokenizer;
-      // PlaceHolder cambiar a tipo correcto una vez esté implementado
-      // Recieves a stack of tokens.
-      int tokenizedExpression = tokenizer.tokenize(userExpression);
+
+      stack<Token> tokenizedExpression = tokenizer.tokenize(userExpression);
 
       // Condition to end the calculation process if the stack of tokens was
       // invalid.
-      if (tokenizedExpression == 0) {
-        // PlaceHolder para probar funcionalidad, cambiar una vez se implementen
-        // las clases restantes
+      if (!tokenizedExpression.empty()) {
         cout << "Tokenize termino exitosamente" << endl;
-        // TODO: Implementar clase ShuntingYard e implementar condición para
-        // continuar con el calculo solo si el stack recibido de esta clase
-        // tiene elementos.
       }
 
+      //Puse esto nada mas para probar que se funcionaba el stack y se emitian en el orden correcto.
+      while(!tokenizedExpression.empty()){
+        Token w = tokenizedExpression.top();
+        string valor = w.getValue();
+        cout << "El valor del token es:" << valor << endl;
+        tokenizedExpression.pop();
+      }
+      cout << " " << endl;
     } else {
       userExpression = toLowerCase(userExpression);
       if (userExpression != "salida") {
@@ -59,6 +61,18 @@ bool hasLetters(string expression) {
     }
   }
   return false;
+}
+
+/*
+Function that iterates through the chars of a string changing every char to its
+lower case form.
+*/
+string toLowerCase(string expression) {
+  string loweredExpression = "";
+  for (int i = 0; i < expression.length(); i++) {
+    loweredExpression += tolower(expression[i]);
+  }
+  return loweredExpression;
 }
 
 /*
