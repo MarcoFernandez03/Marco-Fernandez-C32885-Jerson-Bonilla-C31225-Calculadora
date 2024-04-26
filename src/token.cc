@@ -19,7 +19,7 @@ TokenType Token::type() { return tokenType; }
 char Token::getValue() { return value; }
 
 // Function that returns the numberValue of the token
-double Token::getNumber() { return numberValue; }
+double Token::getNumber() { return numberValue - '0'; }
 
 // Function that returns true if the value is a digit and therefore a number
 bool Token::isNumber() {
