@@ -5,5 +5,6 @@ add_executable(Calculadora
 calculadora.cc
 tokenizer.cc
 token.cc
+ShuntingYard.cc
 )
 target_include_directories(Calculadora PUBLIC ../include)
