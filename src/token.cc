@@ -9,14 +9,14 @@ Token::Token(TokenType type, char value) : tokenType(type), value(value) {
 
 Token::Token(TokenType type, double value) : tokenType(type), value(value) {
   if (type == TokenType::TOKEN_TYPE_NUMBER) {
-    numberValue = value;}
-
+    numberValue = value;
+    }
 }
 
 //Returns the TokenType of the token.
 TokenType Token::type() { return tokenType; }
 
-//Returns the value of the token as a string.
+//Returns the value of the token as a char.
 char Token::getValue() { return value; }
 
 //Returns the double numberValue of the token, whether it exists or not.

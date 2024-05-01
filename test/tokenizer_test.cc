@@ -31,6 +31,12 @@ TEST(TokenizeTest, TokenizeSquareRoot){
     EXPECT_EQ(tokenizedExpression.size(), 3);   
 }
 
+TEST(TokenizeTest, TokenizeSquareRootCapitalLetter){
+    tokenizer tokenizer;
+    stack<Token> tokenizedExpression = tokenizer.tokenize("2V5");
+    EXPECT_EQ(tokenizedExpression.size(), 3);   
+}
+
 TEST(TokenizeTest, TokenizeLogarithm){
     tokenizer tokenizer;
     stack<Token> tokenizedExpression = tokenizer.tokenize("2v5");

@@ -2,6 +2,8 @@
 #include <string>
 #include <token.hh>
 #include <tokenizer.hh>
+#include <ShuntingYard.hh>
+#include <PostFix.hh>
 
 using namespace std;
 // Variables
@@ -19,34 +21,36 @@ int main() {
     if (!hasLetters(userExpression)) {
       tokenizer tokenizer;
       stack<Token> tokenizedExpression = tokenizer.tokenize(userExpression);
+      ShuntingYard sY;
+      PostFix pF;
 
       // Condition to end the calculation process if the stack of tokens was
       // invalid.
       if (!tokenizedExpression.empty()) {
         cout << "Tokenize termino exitosamente" << endl;
       }
+      
+      stack<Token> postFixExpression = sY.parse(tokenizedExpression);
 
-      //Puse esto nada mas para probar que se funcionaba el stack y se emitian en el orden correcto.
-      while(!tokenizedExpression.empty()){
-        Token w = tokenizedExpression.top();
-        if(w.type() == TokenType::TOKEN_TYPE_NUMBER){
-          double valor = w.getNumber();
-          cout << "El valor del token es:" << valor << endl;
+      // Condition to end the calculation process if the stack of tokens was
+      // invalid.
+      if (!postFixExpression.empty()){
+        Token resultado = pF.calculatePostFix(postFixExpression);
+        if(resultado.type() == TokenType::TOKEN_TYPE_NULL){
         }
         else{
-          char valor = w.getValue();
-          cout << "El valor del token es:" << valor << endl;
+          cout << "El resultado de la expresion es: " << resultado.getNumber() << endl;
         }
-        tokenizedExpression.pop();
       }
       cout << " " << endl;
+
     } else {
       userExpression = toLowerCase(userExpression);
-      if (userExpression != "salida") {
+      if (userExpression != "salir") {
         cout << "La expresion: <" << userExpression << "> no es valida" << endl;
       }
     }
-  } while (userExpression != "salida");
+  } while (userExpression != "salir");
   return 0;
 }
 /*

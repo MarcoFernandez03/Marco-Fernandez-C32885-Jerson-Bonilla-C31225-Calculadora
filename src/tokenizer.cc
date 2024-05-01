@@ -45,7 +45,6 @@ stack<Token> tokenizer::tokenize(string userExpression) {
       Token nuevoToken(TokenType::TOKEN_TYPE_NUMBER, numeroActual);
       stackUserExpression.push(nuevoToken);
       i = i + sumadorParaI;
-      cout << "Estoy leyendo un numero " << numeroActual << endl;
     } else {
       Token* pNuevoToken;
       // Switch used to dictate an state based on the char read, create a new token based on the char and push it into the stack.
@@ -64,58 +63,54 @@ stack<Token> tokenizer::tokenize(string userExpression) {
         Token nuevoToken(TokenType::TOKEN_TYPE_OPERATOR, userExpression[i]);
         pNuevoToken = &nuevoToken;
       }
+
+      //Check if is 'v' or 'V'
+      if(userExpression[i] == 'V' || userExpression[i] == 'v' ){
+        Token nuevoToken(TokenType::TOKEN_TYPE_OPERATOR, 'v');
+        pNuevoToken = &nuevoToken;
+        }
       switch (userExpression[i]) {
       case '(':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
         break;
       case ')':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
         break;
       case '[':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
         break;
       case ']':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
         break;
       case '{':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
         break;
       case '}':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
         break;
       case '+':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
         break;
       case '-':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
         break;
       case '*':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
         break;
       case '/':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
         break;
       case '^':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
         break;
       case '_':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
         break;
       case 'v':
         stackUserExpression.push(*pNuevoToken);
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        break;
+      case 'V':
+        stackUserExpression.push(*pNuevoToken);
         break;
       case ' ':
         cout << " " << endl;
