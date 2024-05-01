@@ -18,18 +18,17 @@ using namespace std;
 
 class Token {
 public:
-Token(TokenType type, string value);
+Token(TokenType type, char value);
+Token(TokenType type, double numberValue);
 TokenType type();
-string getValue();
-char getCharValue();
+char getValue();
 double getNumber();
 bool isNumber();
 bool isOperator();
 
 private:
 TokenType tokenType;
-string value;
-char charValue;
+char value;
 double numberValue;
 };
 
