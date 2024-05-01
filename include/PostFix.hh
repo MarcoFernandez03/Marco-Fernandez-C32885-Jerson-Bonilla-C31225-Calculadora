@@ -10,5 +10,6 @@ class PostFix
     private:
     double logarithm_a_to_base_b(double a, double b);
     bool operacionValida(double a, double b, char op);
+    bool validExpression(stack<Token> expressionToCheck);
 };
 #endif

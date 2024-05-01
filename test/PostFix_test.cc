@@ -187,4 +187,32 @@ TEST(CalculatePostFixTest, UndefinedLogarithm){
     EXPECT_EQ(result.type(), TokenType::TOKEN_TYPE_NULL);    
 }
 
+TEST(CalculatePostFixTest, InvalidExpression){
+    stack<Token> tokenStack;
+    PostFix pF;
+    Token token(TokenType::TOKEN_TYPE_NUMBER, (double)8);
+    tokenStack.push(token);
+    Token token1(TokenType::TOKEN_TYPE_OPERATOR, '+');
+    tokenStack.push(token1);
+    Token token2(TokenType::TOKEN_TYPE_OPERATOR, '+');
+    tokenStack.push(token2);
+    Token result = pF.calculatePostFix(tokenStack);
+    EXPECT_EQ(result.type(), TokenType::TOKEN_TYPE_NULL);    
+}
+
+TEST(CalculatePostFixTest, InvalidExpression2){
+    stack<Token> tokenStack;
+    PostFix pF;
+    Token token(TokenType::TOKEN_TYPE_NUMBER, (double)8);
+    tokenStack.push(token);
+    Token token1(TokenType::TOKEN_TYPE_NUMBER, (double)8);
+    tokenStack.push(token1);
+    Token token2(TokenType::TOKEN_TYPE_OPERATOR, '+');
+    tokenStack.push(token2);
+    Token token3(TokenType::TOKEN_TYPE_OPERATOR, '+');
+    tokenStack.push(token3);
+    
+    Token result = pF.calculatePostFix(tokenStack);
+    EXPECT_EQ(result.type(), TokenType::TOKEN_TYPE_NULL);    
+}
 
