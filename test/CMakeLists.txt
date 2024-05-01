@@ -16,8 +16,15 @@ enable_testing()
 add_executable(calculadora_test
 token_test.cc
 ${Calculadora_SOURCE_DIR}/src/token.cc
+tokenizer_test.cc
+${Calculadora_SOURCE_DIR}/src/tokenizer.cc
 ShuntingYard_test.cc
 ${Calculadora_SOURCE_DIR}/src/ShuntingYard.cc
+PostFix_test.cc
+${Calculadora_SOURCE_DIR}/src/PostFix.cc
+tokenizer_and_shuntingYard_test.cc
+
+ShuntingYard_and_PostFix_test.cc
 )
 # Además, se añaden los archivos de encabezados
 target_include_directories(calculadora_test

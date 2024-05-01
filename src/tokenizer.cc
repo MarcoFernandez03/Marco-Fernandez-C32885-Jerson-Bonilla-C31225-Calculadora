@@ -1,58 +1,116 @@
 #include <iostream>
 #include <string>
+#include <token.hh>
 #include <tokenizer.hh>
 using namespace std;
 
 // Function that gets an string and classifies its characters as tokens
-int tokenizer::tokenize(string userExpression) {
+stack<Token> tokenizer::tokenize(string userExpression) {
+  // El stack en el orden que se reciben las expresiones
+  stack<Token> stackUserExpression;
+  // El stack con el orden de los tokens de forma correcta (para que el primer
+  // elemento ingresado sea el top en el nuevo stack).
+  stack<Token> stackUserExpressionRight;
   for (int i = 0; i < userExpression.length(); i++) {
     if (isdigit(userExpression[i])) {
-      // PlaceHolder cambiar por lógica cuando Token esté implementada
-      cout << "Estoy leyendo un numero " << userExpression[i] << endl;
+      // contador para sumar al i.
+      int sumadorParaI = 0;
+      double multiplicadorDecimal = 0;
+      bool tieneDecimal = false;
+      double numeroActual = userExpression[i] - '0';
+      for (int j = i + 1; j < userExpression.length(); j++) {
+        if (!tieneDecimal) {
+          if (isdigit(userExpression[j])) {
+            int nuevoNumero = userExpression[j] - '0';
+            numeroActual = numeroActual * 10 + nuevoNumero;
+            sumadorParaI++;
+          } else if (userExpression[j] == '.' && !tieneDecimal) {
+            tieneDecimal = true;
+            multiplicadorDecimal = 0.1;
+            sumadorParaI++;
+          } else {
+            break;
+          }
+        } else {
+          if (isdigit(userExpression[j])) {
+            double nuevoNumero = userExpression[j] - '0';
+            numeroActual = numeroActual + nuevoNumero * multiplicadorDecimal;
+            multiplicadorDecimal = multiplicadorDecimal * 0.1;
+            sumadorParaI++;
+          } else {
+            break;
+          }
+        }
+      }
+      Token nuevoToken(TokenType::TOKEN_TYPE_NUMBER, numeroActual);
+      stackUserExpression.push(nuevoToken);
+      i = i + sumadorParaI;
     } else {
-      // Switch used to dictate an state based on the char read.
+      Token* pNuevoToken;
+      // Switch used to dictate an state based on the char read, create a new token based on the char and push it into the stack.
+      if (userExpression[i] == '(' || 
+          userExpression[i] == '[' || 
+          userExpression[i] == '{') {
+        Token nuevoToken(TokenType::TOKEN_TYPE_LEFT_PARENTHESIS, userExpression[i]);
+        pNuevoToken = &nuevoToken;
+      }else if (userExpression[i] == ')' || 
+          userExpression[i] == ']' ||
+          userExpression[i] == '}') {
+        Token nuevoToken(TokenType::TOKEN_TYPE_RIGHT_PARENTHESIS, userExpression[i]);
+        pNuevoToken = &nuevoToken;
+      }
+      else{
+        Token nuevoToken(TokenType::TOKEN_TYPE_OPERATOR, userExpression[i]);
+        pNuevoToken = &nuevoToken;
+      }
+
+      //Check if is 'v' or 'V'
+      if(userExpression[i] == 'V' || userExpression[i] == 'v' ){
+        Token nuevoToken(TokenType::TOKEN_TYPE_OPERATOR, 'v');
+        pNuevoToken = &nuevoToken;
+        }
       switch (userExpression[i]) {
       case '(':
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case ')':
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '[':
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case ']':
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '{':
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '}':
-        cout << "Estoy leyendo el parentesis " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '+':
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '-':
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '*':
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '/':
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '^':
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case '_':
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
       case 'v':
-        cout << "Estoy leyendo el operador " << userExpression[i] << endl;
+        stackUserExpression.push(*pNuevoToken);
         break;
-      case '.':
-        cout << "Leí el punto decimal" << endl;
+      case 'V':
+        stackUserExpression.push(*pNuevoToken);
         break;
       case ' ':
         cout << " " << endl;
@@ -60,9 +118,16 @@ int tokenizer::tokenize(string userExpression) {
       default:
         cout << "ERROR: Operador no valido <" << userExpression[i] << ">"
              << endl;
-        return 1;
+        return stackUserExpression;
       }
     }
   }
-  return 0;
+
+  //Reverses the order of the tokens into a new stack with the right order.
+  while (!stackUserExpression.empty()) {
+    Token topToken = stackUserExpression.top();
+    stackUserExpression.pop();
+    stackUserExpressionRight.push(topToken);
+  }
+  return stackUserExpressionRight;
 }

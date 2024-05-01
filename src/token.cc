@@ -1,37 +1,37 @@
 #include <token.hh>
 using namespace std;
 
-//Functions
-//Function that gets a TokenType and a char and assigns the given value to numberValue if it is a number. Otherwise it assigns the given value to value if it is an operator
+/*Constructor of class Token, the parameters asked for are TokenType type (number, operator) and a string value. 
+If it is a number then assigns to the double "numberValue" the value turned into a double through stod function.
+*/
 Token::Token(TokenType type, char value) : tokenType(type), value(value) {
-  if (type == TokenType::TOKEN_TYPE_NUMBER) {
-    numberValue = (double)value;
-  }
-  else if (type == TokenType::TOKEN_TYPE_OPERATOR) {
-    value = value;
-  }
 }
 
-// Function that returns the tokenType of the token
+Token::Token(TokenType type, double value) : tokenType(type), value(value) {
+  if (type == TokenType::TOKEN_TYPE_NUMBER) {
+    numberValue = value;
+    }
+}
+
+//Returns the TokenType of the token.
 TokenType Token::type() { return tokenType; }
 
-// Function that returns the value of the token
+//Returns the value of the token as a char.
 char Token::getValue() { return value; }
 
-// Function that returns the numberValue of the token
-double Token::getNumber() { return numberValue - '0'; }
+//Returns the double numberValue of the token, whether it exists or not.
+double Token::getNumber() { return numberValue; }
 
-// Function that returns true if the value is a digit and therefore a number
+//Returns true if tokenType is a number.
 bool Token::isNumber() {
-  if (isdigit(value)) {
+  if (tokenType == TokenType::TOKEN_TYPE_NUMBER) {
     return true;
   }
   return false;
 }
-
-// Function that returns true if the value is not digit and therefore is not a number
+//Returns true if tokenType is not a number, thus being an operator.
 bool Token::isOperator() {
-  if (!isdigit(value)) {
+  if (tokenType != TokenType::TOKEN_TYPE_NUMBER) {
     return true;
   }
   return false;

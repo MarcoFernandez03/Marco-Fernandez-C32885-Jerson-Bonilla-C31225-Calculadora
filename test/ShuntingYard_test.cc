@@ -1,5 +1,5 @@
-#include <ShuntingYard.hh>
 #include <gtest/gtest.h>
+#include <ShuntingYard.hh>
 #include <iostream>
 #include <stack>
 #include <string>

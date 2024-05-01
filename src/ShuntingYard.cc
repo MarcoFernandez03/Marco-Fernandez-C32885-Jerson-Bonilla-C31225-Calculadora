@@ -147,3 +147,4 @@ int ShuntingYard::GetPrecedence(char token) {
   }
   return -4;
 }
+

@@ -3,6 +3,8 @@
 #include <string>
 #include <token.hh>
 #include <tokenizer.hh>
+#include <ShuntingYard.hh>
+#include <PostFix.hh>
 
 using namespace std;
 
@@ -14,20 +16,28 @@ int main() {
     getline(cin, userExpression);
     if (strcasecmp(userExpression.c_str(), "salir") != 0) {
       tokenizer tokenizer;
-      // PlaceHolder cambiar a tipo correcto una vez esté implementado
-      // Recieves a stack of tokens.
-      int tokenizedExpression = tokenizer.tokenize(userExpression);
+      stack<Token> tokenizedExpression = tokenizer.tokenize(userExpression);
+      ShuntingYard sY;
+      PostFix pF;
 
       // Condition to end the calculation process if the stack of tokens was
       // invalid.
-      if (tokenizedExpression == 0) {
-        // PlaceHolder para probar funcionalidad, cambiar una vez se implementen
-        // las clases restantes
+      if (!tokenizedExpression.empty()) {
         cout << "Tokenize termino exitosamente" << endl;
-        // TODO: Implementar clase ShuntingYard e implementar condición para
-        // continuar con el calculo solo si el stack recibido de esta clase
-        // tiene elementos.
       }
+      stack<Token> postFixExpression = sY.parse(tokenizedExpression);
+
+      // Condition to end the calculation process if the stack of tokens was
+      // invalid.
+      if (!postFixExpression.empty()){
+        Token resultado = pF.calculatePostFix(postFixExpression);
+        if(resultado.type() == TokenType::TOKEN_TYPE_NULL){
+        }
+        else{
+          cout << "El resultado de la expresion es: " << resultado.getNumber() << endl;
+        }
+      }
+      cout << " " << endl;
     }
   } while (strcasecmp(userExpression.c_str(), "salir") != 0);
   return 0;
