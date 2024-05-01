@@ -2,8 +2,8 @@
 #include <stack>
 #include <token.hh>
 using namespace std;
-#ifndef TOKENIZER_HH
-#define TOKENIZER_HH
+#ifndef SHUNTINGYARD_HH
+#define SHUNTINGYARD_HH
 class ShuntingYard {
 public:
   stack<Token> parse(stack<Token> tokenizedExpression);
