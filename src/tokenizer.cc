@@ -46,29 +46,29 @@ stack<Token> tokenizer::tokenize(string userExpression) {
       stackUserExpression.push(nuevoToken);
       i = i + sumadorParaI;
     } else {
-      Token* pNuevoToken;
-      // Switch used to dictate an state based on the char read, create a new token based on the char and push it into the stack.
-      if (userExpression[i] == '(' || 
-          userExpression[i] == '[' || 
+      Token *pNuevoToken;
+      // Switch used to dictate an state based on the char read, create a new
+      // token based on the char and push it into the stack.
+      if (userExpression[i] == '(' || userExpression[i] == '[' ||
           userExpression[i] == '{') {
-        Token nuevoToken(TokenType::TOKEN_TYPE_LEFT_PARENTHESIS, userExpression[i]);
+        Token nuevoToken(TokenType::TOKEN_TYPE_LEFT_PARENTHESIS,
+                         userExpression[i]);
         pNuevoToken = &nuevoToken;
-      }else if (userExpression[i] == ')' || 
-          userExpression[i] == ']' ||
-          userExpression[i] == '}') {
-        Token nuevoToken(TokenType::TOKEN_TYPE_RIGHT_PARENTHESIS, userExpression[i]);
+      } else if (userExpression[i] == ')' || userExpression[i] == ']' ||
+                 userExpression[i] == '}') {
+        Token nuevoToken(TokenType::TOKEN_TYPE_RIGHT_PARENTHESIS,
+                         userExpression[i]);
         pNuevoToken = &nuevoToken;
-      }
-      else{
+      } else {
         Token nuevoToken(TokenType::TOKEN_TYPE_OPERATOR, userExpression[i]);
         pNuevoToken = &nuevoToken;
       }
 
-      //Check if is 'v' or 'V'
-      if(userExpression[i] == 'V' || userExpression[i] == 'v' ){
+      // Check if is 'v' or 'V'
+      if (userExpression[i] == 'V' || userExpression[i] == 'v') {
         Token nuevoToken(TokenType::TOKEN_TYPE_OPERATOR, 'v');
         pNuevoToken = &nuevoToken;
-        }
+      }
       switch (userExpression[i]) {
       case '(':
         stackUserExpression.push(*pNuevoToken);
@@ -113,7 +113,6 @@ stack<Token> tokenizer::tokenize(string userExpression) {
         stackUserExpression.push(*pNuevoToken);
         break;
       case ' ':
-        cout << " " << endl;
         break;
       default:
         cout << "ERROR: Operador no valido <" << userExpression[i] << ">"
@@ -123,7 +122,7 @@ stack<Token> tokenizer::tokenize(string userExpression) {
     }
   }
 
-  //Reverses the order of the tokens into a new stack with the right order.
+  // Reverses the order of the tokens into a new stack with the right order.
   while (!stackUserExpression.empty()) {
     Token topToken = stackUserExpression.top();
     stackUserExpression.pop();
